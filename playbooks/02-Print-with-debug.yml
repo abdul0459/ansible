@@ -1,0 +1,6 @@
+- name : print a statement with debug module
+  hosts: all
+  tasks :
+     - name : printing with debug module
+       debug :
+         msg : "Welcome to DEVOPS"

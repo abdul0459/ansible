@@ -1,0 +1,8 @@
+- name : Variable form playbook
+  hosts: all
+  vars :
+     URL :  "devops.com"
+  tasks :
+      - name : priting varaiable form the playbook 
+        debug :
+           msg : "URL is {{URL}}"

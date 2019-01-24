@@ -1,0 +1,10 @@
+- name : print the varaible from the promt
+  hosts : all
+  vars_prompt :
+       - name : "url"
+         prompt : ENTER URL
+  tasks :
+     - name : print url 
+       debug : 
+          msg : "url = {{url}}" 
+         
