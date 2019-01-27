@@ -1,0 +1,8 @@
+- name : getting variable from set_fact module
+  hosts : all
+  tasks:
+    - name : print a varaiable 
+      set_fact : 
+          URL : google.com
+    - debug :
+        msg : " {{URL}}"

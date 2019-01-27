@@ -1,0 +1,7 @@
+- name : when conditions
+  hosts : all
+  tasks :
+     - name : to print project info
+       debug :
+         msg : "project == {{ansible_local.projectinfo.project}}"
+       when : ansible_local.projectinfo.project == "Devops"

@@ -1,0 +1,6 @@
+- name : taking the variable from CLI
+  hosts : all
+  tasks :
+     - name : taking the variable from CLI
+       debug:
+         msg : "URL = {{URL}}"

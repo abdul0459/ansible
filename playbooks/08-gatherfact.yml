@@ -1,0 +1,6 @@
+- name : print hostname 
+  hosts : all
+  tasks :
+     - name : printing host name 
+       debug :
+        msg : "hist name = {{ansible_hostname}}"

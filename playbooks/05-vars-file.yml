@@ -1,0 +1,9 @@
+- name : getting variable form a file
+  hosts: all
+  vars_files :
+     - sample-var.yml 
+  tasks :
+     - name : getting a text  from a file
+       debug :
+         msg : "test = {{test}}"
+       
