@@ -1,0 +1,10 @@
+- name : Loops 
+  hosts : all
+  tasks :
+     - name : loop
+       loop :
+            - google.com
+            - facebook.com
+            - youtube.com
+       debug :
+          msg : "{{item}}"

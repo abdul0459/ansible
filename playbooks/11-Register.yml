@@ -3,7 +3,20 @@
   tasks: 
     - name: run a shell command
       command: uptime
+      ignore_errors: true
       register: out
     - debug: 
         msg : "{{out}}"
-     
+
+    - set_fact :
+        STATUS : "{{out.failed}}"
+
+    
+    - debug : 
+        msg : "the given shell command is executed succesfully"
+      when : STATUS == false
+
+    - debug : 
+        msg : "the given shell command is executed succesfully"
+      when : STATUS == true
+    
