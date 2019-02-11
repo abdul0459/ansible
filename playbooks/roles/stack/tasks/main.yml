@@ -1,0 +1,82 @@
+- name: install web server and related packages
+  loop:
+      - httpd
+      - java
+  package:
+      name: "{{item}}"
+      state: present
+
+- name: tomcat integration on webserver 
+  template:
+       src: studentapp.conf.j2
+       dest: /etc/httpd/conf.d/studentapp.conf
+
+- name : index.html file 
+  copy:
+     src: index.html
+     dest: /var/www/html/index.html
+
+- name : restart a web service 
+  service:
+     name: httpd
+     state: restarted
+     enabled: yes
+
+- name : adding application user
+  user:
+     name: "{{TOMCAT_USER}}"
+
+- name : download and extarct tomcat
+  unarchive:
+     src : "{{TOMCAT_URL}}"
+     dest: "{{TOMCAT_HOME}}"
+     remote_src: yes
+  become_user: "{{TOMCAT_USER}}"
+
+- name : download JDBC
+  get_url:
+     url: "{{JDBC_URL}}"
+     dest: "{{TOMCAT_PATH}}/lib/{{JDBC_FILENAME}}"
+  become_user: "{{TOMCAT_USER}}"
+
+- name : find existing war files
+  find: 
+     paths: "{{TOMCAT_PATH}}/webapps/"
+     file_type: any
+  register: out
+  become_user: "{{TOMCAT_USER}}"
+
+- name : remove exixting webapps files
+  become_user: "{{TOMCAT_USER}}"
+  file:
+     path: "{{item.path}}"
+     state: absent
+  loop: "{{out.files}}"
+
+  
+- name : download Webapps
+  get_url:
+     url: "{{WAR_URL}}"
+     dest: "{{TOMCAT_PATH}}/webapps/{{WAR_FILENAME}}"
+  become_user: "{{TOMCAT_USER}}"
+
+- name: moving context.xml file
+  template:
+    src: context.xml.j2
+    dest: "{{TOMCAT_PATH}}/conf/context.xml"
+
+- name : dowmlaod tomcat init script
+  get_url:
+     url: "{{INIT_URL}}"
+     dest: /etc/init.d/tomcat
+     mode: 0755
+
+- name: reload systemctl deamon
+  shell: systemctl daemon-reload
+
+- name: restart tomcat
+  service:
+     name: tomcat
+     state: restarted
+     enabled: yes
+

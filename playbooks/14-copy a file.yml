@@ -1,0 +1,7 @@
+- name : Copy a file sample txt
+  hosts : all
+  tasks :
+    - name : copy a sample file to the ansible node
+      copy :
+         src : sample.txt
+         dest: /tmp/sample.txt

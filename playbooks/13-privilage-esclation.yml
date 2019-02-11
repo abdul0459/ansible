@@ -1,0 +1,8 @@
+- name : privilage esclations
+  hosts : all
+  become : yes
+  tasks :
+    - name : create a file sample file
+      shell : touch /tmp/sample.txt
+      become : no
+     

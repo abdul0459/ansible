@@ -1,0 +1,7 @@
+- name : Copy a file sample txt
+  hosts : all
+  tasks :
+    - name : copy a sample file to the ansible node  with template module
+      template :
+           src : sample.txt.j2
+           dest: /tmp/sample.txt
